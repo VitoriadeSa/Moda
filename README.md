@@ -8,6 +8,16 @@ Aplicação Android para organização de moldes de costura, tecidos e cores.
 - Room (SQLite)
 - Gradle com Kotlin DSL
 
+## Comandos essenciais Git
+
+Fluxo habitual:
+```bash
+git status
+git add .
+git commit -m "Descrição das alterações"
+git push
+```
+
 ## Base de dados
 
 A base de dados local utiliza Room e inclui seis entidades:
