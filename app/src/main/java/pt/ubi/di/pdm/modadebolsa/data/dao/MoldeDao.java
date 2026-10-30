@@ -1,11 +1,13 @@
 
-package pt.ubi.di.pdm.modadebolsa.data;
+package pt.ubi.di.pdm.modadebolsa.data.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
 import java.util.List;
+
+import pt.ubi.di.pdm.modadebolsa.data.Molde;
 
 @Dao
 public interface MoldeDao {

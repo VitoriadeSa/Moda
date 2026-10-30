@@ -1,5 +1,5 @@
 
-package pt.ubi.di.pdm.modadebolsa.data;
+package pt.ubi.di.pdm.modadebolsa.data.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -7,6 +7,8 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
+
+import pt.ubi.di.pdm.modadebolsa.data.CategoriaCor;
 
 @Dao
 public interface CategoriaCorDao {

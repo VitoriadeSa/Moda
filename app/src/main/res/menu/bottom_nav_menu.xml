@@ -1,0 +1,5 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_moldes" android:icon="@drawable/ic_blusa" android:title="Moldes" />
+    <item android:id="@+id/nav_tecidos" android:icon="@drawable/ic_tecido" android:title="Tecidos" />
+    <item android:id="@+id/nav_outros" android:icon="@drawable/ic_cor" android:title="Outros" />
+</menu>
