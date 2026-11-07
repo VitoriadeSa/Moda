@@ -6,9 +6,15 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+<<<<<<< HEAD
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+=======
+        android:icon="@drawable/icon_moda"
+        android:roundIcon="@drawable/icon_moda"
+        android:label="@string/app_name"
+>>>>>>> 7f81ae7 (Sprint 3 - Correção da navegação inferior, persistência, transições de atividades e criação das cores)
         android:supportsRtl="true"
         android:theme="@style/Theme.ModaDeBolsa">
 
@@ -44,6 +50,19 @@
             android:name=".CirculoCoresActivity"
             android:exported="false" />
 
+<<<<<<< HEAD
+=======
+        <!--<provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>-->
+
+>>>>>>> 7f81ae7 (Sprint 3 - Correção da navegação inferior, persistência, transições de atividades e criação das cores)
     </application>
 
 </manifest>

@@ -1,6 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+=======
+<!--<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <files-path name="internal_pdfs" path="." />
+</paths>-->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:background="#9B78C0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/ivLogoTop"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            app:srcCompat="@drawable/ic_moda"
+            android:contentDescription="Logo Moda de Bolso"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tvTituloMolde"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Moldes"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivLogoTop" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="12dp"
+                    android:backgroundTint="#9B78C0"
+                    app:icon="@drawable/ic_saia_curta"
+                    app:iconTint="#FFFFFF"
+                    app:iconSize="48dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:cornerRadius="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn2"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="12dp"
+                    android:backgroundTint="#9B78C0"
+                    app:icon="@drawable/ic_calca"
+                    app:iconTint="#FFFFFF"
+                    app:iconSize="48dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:cornerRadius="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn3"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:backgroundTint="#9B78C0"
+                    app:icon="@drawable/ic_blusa"
+                    app:iconTint="#FFFFFF"
+                    app:iconSize="48dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:cornerRadius="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn4"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="12dp"
+                    android:backgroundTint="#9B78C0"
+                    app:icon="@drawable/ic_saia_longa"
+                    app:iconTint="#FFFFFF"
+                    app:iconSize="48dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:cornerRadius="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn5"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="12dp"
+                    android:backgroundTint="#9B78C0"
+                    app:icon="@drawable/ic_short"
+                    app:iconTint="#FFFFFF"
+                    app:iconSize="48dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:cornerRadius="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn6"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:backgroundTint="#9B78C0"
+                    app:icon="@drawable/ic_vestido_curto"
+                    app:iconTint="#FFFFFF"
+                    app:iconSize="48dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:cornerRadius="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn7"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="12dp"
+                    android:backgroundTint="#9B78C0"
+                    app:icon="@drawable/ic_regata"
+                    app:iconTint="#FFFFFF"
+                    app:iconSize="48dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:cornerRadius="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn8"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="12dp"
+                    android:backgroundTint="#9B78C0"
+                    app:icon="@drawable/ic_sueter"
+                    app:iconTint="#FFFFFF"
+                    app:iconSize="48dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:cornerRadius="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn9"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:backgroundTint="#9B78C0"
+                    app:icon="@drawable/ic_blusa_manga_comprida"
+                    app:iconTint="#FFFFFF"
+                    app:iconSize="48dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:cornerRadius="16dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="0dp"
+        android:layout_height="90dp"
+        android:background="#9B78C0"
+        app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@android:color/white"
+        app:itemTextColor="@android:color/white"
+        app:itemIconSize="30dp"
+        app:itemActiveIndicatorStyle="@null"
+        app:menu="@menu/bottom_nav_menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+>>>>>>> 7f81ae7 (Sprint 3 - Correção da navegação inferior, persistência, transições de atividades e criação das cores)
 
 </androidx.constraintlayout.widget.ConstraintLayout>

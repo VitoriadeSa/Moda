@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -41,3 +42,40 @@
             tools:text="Calças Wide Leg" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
+=======
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="#9B78C0"
+    android:padding="16dp"
+    android:layout_marginBottom="12dp"
+    android:elevation="2dp">
+
+    <ImageView
+        android:id="@+id/ivMoldeIcon"
+        android:layout_width="37dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_saia_curta"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/tvNomeMolde"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="16dp"
+        android:text="Nome do Molde"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_moda"
+        android:contentDescription="@null" />
+
+</LinearLayout>
+>>>>>>> 7f81ae7 (Sprint 3 - Correção da navegação inferior, persistência, transições de atividades e criação das cores)

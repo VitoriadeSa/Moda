@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Locale;
 
 import pt.ubi.di.pdm.modadebolsa.R;
@@ -70,5 +71,68 @@ public class MoldeAdapter extends RecyclerView.Adapter<MoldeAdapter.VH> {
             }
         }
         notifyDataSetChanged();
+=======
+
+import pt.ubi.di.pdm.modadebolsa.R;
+// Importa a tua entidade Room do molde quando estiver pronta, ex:
+// import pt.ubi.di.pdm.modadebolsa.data.MoldeEntity;
+
+public class MoldeAdapter extends RecyclerView.Adapter<MoldeAdapter.MoldeViewHolder> {
+
+    // Substitui Object pela tua classe de dados/entidade do Molde (ex: MoldeEntity)
+    private List<Object> listaMoldes = new ArrayList<>();
+    private OnMoldeClickListener listener;
+
+    public interface OnMoldeClickListener {
+        void onMoldeClick(Object molde);
+    }
+
+    public MoldeAdapter(OnMoldeClickListener listener) {
+        this.listener = listener;
+    }
+
+    public void setMoldes(List<Object> moldes) {
+        this.listaMoldes = moldes;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
+    @Override
+    public MoldeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_molde, parent, false);
+        return new MoldeViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MoldeViewHolder holder, int position) {
+        Object molde = listaMoldes.get(position);
+
+        // Exemplo de atribuição de dados (ajusta conforme os campos da tua entidade Room):
+        // holder.tvNomeMolde.setText(molde.getNome());
+        holder.tvNomeMolde.setText("Molde Exemplo " + (position + 1));
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onMoldeClick(molde);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return listaMoldes.size();
+    }
+
+    static class MoldeViewHolder extends RecyclerView.ViewHolder {
+        TextView tvNomeMolde;
+        ImageView ivMoldeIcon;
+
+        public MoldeViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvNomeMolde = itemView.findViewById(R.id.tvNomeMolde);
+            ivMoldeIcon = itemView.findViewById(R.id.ivMoldeIcon);
+        }
+>>>>>>> 7f81ae7 (Sprint 3 - Correção da navegação inferior, persistência, transições de atividades e criação das cores)
     }
 }
