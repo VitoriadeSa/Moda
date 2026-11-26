@@ -1,4 +1,4 @@
-# ModaDeBolsa
+# ModaDeBolso
 
 Aplicação Android para organização de moldes de costura, tecidos e cores.
 
