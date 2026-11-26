@@ -2,4 +2,10 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="roxo_principal">#9B78C0</color>
+    <color name="roxo_escuro">#4A2F6E</color>
+    <color name="texto_primario">#1C1B1F</color>
+    <color name="texto_secundario">#49454F</color>
+    <color name="divisor">#D6CFDD</color>
 </resources>

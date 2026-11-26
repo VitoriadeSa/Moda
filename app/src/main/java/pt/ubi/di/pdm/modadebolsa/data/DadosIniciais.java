@@ -1,6 +1,8 @@
 
 package pt.ubi.di.pdm.modadebolsa.data;
 
+import static pt.ubi.di.pdm.modadebolsa.data.ValoresTecido.*;
+
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
@@ -56,64 +58,18 @@ public final class DadosIniciais {
                 }
 
                 // =========================================
-                // 3. CARACTERÍSTICAS DOS TECIDOS
+                // 3. TECIDOS + CARACTERÍSTICAS
+                //    (cada tecido tem a sua ficha de características)
+                //    Imagens: colocar em app/src/main/assets/tecidos/
                 // =========================================
 
-                String[] caracteristicas = {
-
-                        caracteristica(
-                                "Algodão",
-                                "Médio",
-                                "Sem elasticidade",
-                                "Opaco",
-                                "Média",
-                                "Alta"
-                        ),
-
-                        caracteristica(
-                                "Viscose",
-                                "Muito fluido",
-                                "Sem elasticidade",
-                                "Opaco",
-                                "Média",
-                                "Média"
-                        ),
-
-                        caracteristica(
-                                "Lã",
-                                "Estruturado",
-                                "Sem elasticidade",
-                                "Opaco",
-                                "Baixa",
-                                "Alta"
-                        ),
-
-                };
-
-                for (String sql : caracteristicas) {
-                    db.execSQL(sql);
-                }
-
-                // =========================================
-                // 4. TECIDOS
-                // =========================================
-
-                String[] tecidos = {
-
-                        tecido("Algodão natural", "Algodão", "Médio",
-                                "Sem elasticidade", "Opaco", "Média", "Alta"),
-
-                        tecido("Viscose fluida", "Viscose", "Muito fluido",
-                                "Sem elasticidade", "Opaco", "Média", "Média"),
-
-                        tecido("Lã tradicional", "Lã", "Estruturado",
-                                "Sem elasticidade", "Opaco", "Baixa", "Alta"),
-
-                        };
-
-                for (String sql : tecidos) {
-                    db.execSQL(sql);
-                }
+                //            nome        imagem                         composição  caimento     elasticidade transparência amarrotab. durabilidade
+                tecido(db, "Algodão",   "asset:tecidos/algodao.jpg",   ORGANICA,   RIGIDO,      BAIXA,       BAIXA,        MEDIA,      ALTA);
+                tecido(db, "Linho",     "asset:tecidos/linho.jpg",     ORGANICA,   RIGIDO,      BAIXA,       MEDIA,        ALTA,       ALTA);
+                tecido(db, "Elastano",  "asset:tecidos/elastano.jpg",  SINTETICA,  EQUILIBRADO, ALTA,        BAIXA,        BAIXA,      MEDIA);
+                tecido(db, "Poliéster", "asset:tecidos/poliester.jpg", SINTETICA,  EQUILIBRADO, BAIXA,       BAIXA,        BAIXA,      ALTA);
+                tecido(db, "Viscose",   "asset:tecidos/viscose.jpg",   MISTA,      FLUIDO,      BAIXA,       MEDIA,        ALTA,       MEDIA);
+                tecido(db, "Lã",        "asset:tecidos/la.jpg",        ORGANICA,   EQUILIBRADO, MEDIA,       BAIXA,        BAIXA,      ALTA);
             }
         };
     }
@@ -138,28 +94,15 @@ public final class DadosIniciais {
                 "'" + dificuldade + "', 0)";
     }
 
-    private static String caracteristica(
-            String composicao,
-            String caimento,
-            String elasticidade,
-            String transparencia,
-            String amarrotabilidade,
-            String durabilidade) {
-
-        return "INSERT INTO CaracteristicasTecido (" +
-                "composicao, caimento, elasticidade, " +
-                "transparencia, amarrotabilidade, durabilidade" +
-                ") VALUES (" +
-                "'" + composicao + "', " +
-                "'" + caimento + "', " +
-                "'" + elasticidade + "', " +
-                "'" + transparencia + "', " +
-                "'" + amarrotabilidade + "', " +
-                "'" + durabilidade + "')";
-    }
-
-    private static String tecido(
+    /**
+     * Insere a ficha de características e, logo a seguir, o tecido que aponta para ela.
+     * Usa last_insert_rowid() em vez de procurar a ficha pelos valores: assim dois
+     * tecidos com características iguais não colidem no índice UNIQUE de Tecido.
+     */
+    private static void tecido(
+            SupportSQLiteDatabase db,
             String nome,
+            String pathImagem,
             String composicao,
             String caimento,
             String elasticidade,
@@ -167,20 +110,21 @@ public final class DadosIniciais {
             String amarrotabilidade,
             String durabilidade) {
 
-        return "INSERT INTO Tecido (" +
-                "nome, pathDocumentoPDF, pathImagem, " +
-                "idCaracteristicasTecido, favorito" +
-                ") SELECT " +
-                "'" + nome + "', " +
-                "NULL, NULL, " +
-                "idCaracteristicasTecido, 0 " +
-                "FROM CaracteristicasTecido " +
-                "WHERE composicao = '" + composicao + "' " +
-                "AND caimento = '" + caimento + "' " +
-                "AND elasticidade = '" + elasticidade + "' " +
-                "AND transparencia = '" + transparencia + "' " +
-                "AND amarrotabilidade = '" + amarrotabilidade + "' " +
-                "AND durabilidade = '" + durabilidade + "' " +
-                "LIMIT 1";
+        db.execSQL(
+                "INSERT INTO CaracteristicasTecido (" +
+                        "composicao, caimento, elasticidade, " +
+                        "transparencia, amarrotabilidade, durabilidade" +
+                        ") VALUES (?, ?, ?, ?, ?, ?)",
+                new Object[]{composicao, caimento, elasticidade,
+                        transparencia, amarrotabilidade, durabilidade}
+        );
+
+        db.execSQL(
+                "INSERT INTO Tecido (" +
+                        "nome, pathDocumentoPDF, pathImagem, " +
+                        "idCaracteristicasTecido, favorito" +
+                        ") VALUES (?, NULL, ?, last_insert_rowid(), 0)",
+                new Object[]{nome, pathImagem}
+        );
     }
 }

@@ -1,14 +1,4 @@
 package pt.ubi.di.pdm.modadebolsa;
-<<<<<<< HEAD
-import androidx.appcompat.app.AppCompatActivity;
-
-import pt.ubi.di.pdm.modadebolsa.data.AppDatabase;
-
-public class CirculoCoresActivity extends AppCompatActivity {
-
-
-
-=======
 
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import pt.ubi.di.pdm.modadebolsa.ui.NavegacaoInferior;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -122,26 +112,7 @@ public class CirculoCoresActivity extends AppCompatActivity {
             Toast.makeText(this, "Paleta guardada com sucesso!", Toast.LENGTH_SHORT).show();
         });
 
-        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
-        bottomNav.setSelectedItemId(R.id.nav_outros);
-
-        bottomNav.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.nav_outros) {
-                return true;
-            } else if (id == R.id.nav_moldes) {
-                startActivity(new Intent(this, ListaMoldesActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            } else if (id == R.id.nav_tecidos) {
-                startActivity(new Intent(this, ListaTecidosActivity.class));
-                overridePendingTransition(0, 0);
-                finish();
-                return true;
-            }
-            return false;
-        });
+        NavegacaoInferior.configurar(this, findViewById(R.id.bottomNav), R.id.nav_outros);
     }
 
     private void salvarPaletasNasPreferencias() {
@@ -240,16 +211,12 @@ public class CirculoCoresActivity extends AppCompatActivity {
             drawable.setColor(color);
         }
     }
->>>>>>> 7f81ae7 (Sprint 3 - Correção da navegação inferior, persistência, transições de atividades e criação das cores)
 
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
-<<<<<<< HEAD
-}
-=======
 
     public static class ColorWheelView extends View {
 
@@ -374,4 +341,3 @@ public class CirculoCoresActivity extends AppCompatActivity {
         }
     }
 }
->>>>>>> 7f81ae7 (Sprint 3 - Correção da navegação inferior, persistência, transições de atividades e criação das cores)

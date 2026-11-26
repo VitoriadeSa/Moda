@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Moda de Bolsa</string>
+
+    <!-- Tecidos -->
+    <string name="titulo_tecidos">Tecidos</string>
+    <string name="tecidos_vazio">Nenhum tecido encontrado</string>
+    <string name="titulo_caracteristicas">Características</string>
+    <string name="voltar">Voltar</string>
+    <string name="filtro_composicao">Composição</string>
+    <string name="filtro_caimento">Caimento</string>
+    <string name="filtro_elasticidade">Elasticidade</string>
+    <string name="filtro_transparencia">Transparência</string>
+    <string name="filtro_amarrotabilidade">Amarrotabilidade</string>
+    <string name="filtro_durabilidade">Durabilidade</string>
+    <string name="filtro_pesquisar">Pesquisar</string>
+    <string name="filtro_limpar">Limpar</string>
 </resources>
