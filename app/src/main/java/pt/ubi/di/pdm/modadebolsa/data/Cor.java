@@ -7,14 +7,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(
-        tableName = "Cor",
-        foreignKeys = @ForeignKey(
-                entity = CategoriaCor.class,
-                parentColumns = "idCategoriaCor",
-                childColumns = "idCategoriaCor",
-                onDelete = ForeignKey.RESTRICT
-        ),
-        indices = {@Index("idCategoriaCor")}
+        tableName = "Cor"
 )
 public class Cor {
 
@@ -25,19 +18,14 @@ public class Cor {
     public String nome;
     public String pathImagem;
     public boolean favorito;
-    public int idCategoriaCor;
 
     public Cor(
             String codigoHex,
             String nome,
-            String pathImagem,
-            boolean favorito,
-            int idCategoriaCor
+            boolean favorito
     ) {
         this.codigoHex = codigoHex;
         this.nome = nome;
-        this.pathImagem = pathImagem;
         this.favorito = favorito;
-        this.idCategoriaCor = idCategoriaCor;
     }
 }

@@ -45,6 +45,7 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.lifecycle:lifecycle-livedata:2.8.7")
+    implementation("androidx.work:work-runtime:2.9.0")
 
     // Room
     val roomVersion = "2.6.1"

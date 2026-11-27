@@ -1,18 +1,15 @@
 
 package pt.ubi.di.pdm.modadebolsa.data;
 
+import static androidx.activity.OnBackPressedDispatcherKt.addCallback;
+
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import pt.ubi.di.pdm.modadebolsa.data.dao.CaracteristicasTecidoDao;
-import pt.ubi.di.pdm.modadebolsa.data.dao.CategoriaCorDao;
-import pt.ubi.di.pdm.modadebolsa.data.dao.CategoriaMoldeDao;
-import pt.ubi.di.pdm.modadebolsa.data.dao.CorDao;
-import pt.ubi.di.pdm.modadebolsa.data.dao.MoldeDao;
-import pt.ubi.di.pdm.modadebolsa.data.dao.TecidoDao;
+import pt.ubi.di.pdm.modadebolsa.data.dao.*;
 
 @Database(
         entities = {
@@ -21,9 +18,16 @@ import pt.ubi.di.pdm.modadebolsa.data.dao.TecidoDao;
                 Tecido.class,
                 CaracteristicasTecido.class,
                 Cor.class,
-                CategoriaCor.class
+                Projeto.class,
+                Equipa.class,
+                Item.class,
+                Utilizador.class,
+                TecidoProjeto.class,
+                MoldeProjeto.class,
+                CorProjeto.class,
+                MembroEquipa.class
         },
-        version = 1,
+        version = 3,
         exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -42,7 +46,10 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract CorDao corDao();
 
-    public abstract CategoriaCorDao categoriaCorDao();
+    public abstract ProjetoDao projetoDao();
+    public abstract EquipaDao equipaDao();
+    public abstract ItemDao itemDao();
+    public abstract UtilizadorDao utilizadorDao();
 
     // Instância única da base de dados
 
@@ -58,6 +65,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     "moda_de_bolsa.db"
                             )
+                            .addMigrations(Migrations.MIGRATION_2_3)
                             .addCallback(DadosIniciais.callback())
                             .build();
                 }

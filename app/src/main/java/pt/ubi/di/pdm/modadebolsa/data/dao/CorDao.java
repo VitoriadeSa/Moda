@@ -33,17 +33,7 @@ public interface CorDao {
             "WHERE idCor = :idCor")
     int atualizarFavorito(int idCor, boolean favorito);
 
-    @Query("SELECT Cor.* FROM Cor " +
-            "INNER JOIN CategoriaCor " +
-            "ON Cor.idCategoriaCor = CategoriaCor.idCategoriaCor " +
-            "WHERE (:estacao IS NULL OR " +
-            "CategoriaCor.estacao = :estacao) " +
-            "AND (:temperatura IS NULL OR " +
-            "CategoriaCor.temperatura = :temperatura) " +
-            "ORDER BY Cor.nome ASC")
-    List<Cor> filtrar(String estacao, String temperatura);
 }
-
 /*
 É possível fazer isto
 List<Cor> resultados = corDao.filtrar("Inverno", null);

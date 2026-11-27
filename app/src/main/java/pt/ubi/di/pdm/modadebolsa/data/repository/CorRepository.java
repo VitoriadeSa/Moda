@@ -84,19 +84,6 @@ public class CorRepository {
         });
     }
 
-    // Filtrar cores por estação e temperatura
-    public void filtrar(String estacao, String temperatura,
-                        OnListaCoresCallback callback) {
-        executorService.execute(() -> {
-            List<Cor> lista = corDao.filtrar(estacao, temperatura);
-
-            if (callback != null) {
-                callback.onResult(lista);
-            }
-        });
-    }
-
-
     // Callbacks
 
     public interface OnInsertCallback {

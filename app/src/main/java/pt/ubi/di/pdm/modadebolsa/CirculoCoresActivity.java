@@ -227,7 +227,7 @@ public class CirculoCoresActivity extends AppCompatActivity {
 
         private float centerX, centerY, radius;
         private float currentAngle = 0;
-        private float handleRadius = 35f;
+        private final float handleRadius = 35f;
 
         private OnTriadColorChangeListener colorChangeListener;
 

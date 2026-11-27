@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import pt.ubi.di.pdm.modadebolsa.data.AppDatabase;
 import pt.ubi.di.pdm.modadebolsa.databinding.ActivityMainBinding;
+import pt.ubi.di.pdm.modadebolsa.notifications.LembreteScheduler;
 import pt.ubi.di.pdm.modadebolsa.ui.CategoriaAdapter;
 import pt.ubi.di.pdm.modadebolsa.ui.NavegacaoInferior;
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        LembreteScheduler.agendar(this);
 
         NavegacaoInferior.configurar(this, binding.bottomNav, R.id.nav_moldes);
 

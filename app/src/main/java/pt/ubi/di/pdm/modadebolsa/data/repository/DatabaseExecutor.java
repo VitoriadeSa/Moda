@@ -21,7 +21,4 @@ public class DatabaseExecutor {
         return executorService;
     }
 
-    public static void encerrar() {
-        executorService.shutdown();
-    }
 }

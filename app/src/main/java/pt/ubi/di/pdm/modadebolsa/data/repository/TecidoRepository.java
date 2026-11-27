@@ -28,16 +28,6 @@ public class TecidoRepository {
         });
     }
 
-    // Atualizar tecido
-    public void atualizar(Tecido tecido, OnUpdateCallback callback) {
-        executorService.execute(() -> {
-            int resultado = tecidoDao.atualizar(tecido);
-
-            if (callback != null) {
-                callback.onResult(resultado);
-            }
-        });
-    }
 
     // Obter tecido por ID
     public void obterPorId(int idTecido, OnTecidoCallback callback) {
@@ -57,30 +47,6 @@ public class TecidoRepository {
 
             if (callback != null) {
                 callback.onResult(lista);
-            }
-        });
-    }
-
-    // Obter tecidos favoritos
-    public void obterFavoritos(OnListaTecidosCallback callback) {
-        executorService.execute(() -> {
-            List<Tecido> lista = tecidoDao.obterFavoritos();
-
-            if (callback != null) {
-                callback.onResult(lista);
-            }
-        });
-    }
-
-    // Atualizar estado de favorito
-    public void atualizarFavorito(int idTecido, boolean favorito,
-                                  OnUpdateCallback callback) {
-        executorService.execute(() -> {
-            int resultado = tecidoDao.atualizarFavorito(
-                    idTecido, favorito);
-
-            if (callback != null) {
-                callback.onResult(resultado);
             }
         });
     }
