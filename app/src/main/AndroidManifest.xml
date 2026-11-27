@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -44,8 +46,18 @@
             android:name=".CirculoCoresActivity"
             android:exported="false" />
 
-    </application>
+        <activity
+            android:name=".ColaboracaoActivity"
+            android:exported="false" />
 
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+        <activity
+            android:name=".ListaProjetosActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ProjetoActivity"
+            android:exported="false" />
+
+    </application>
 
 </manifest>

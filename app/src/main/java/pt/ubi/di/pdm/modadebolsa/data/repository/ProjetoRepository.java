@@ -65,10 +65,21 @@ public class ProjetoRepository {
         return ProjetoDao.obterComEntregaAPartirDe(desde);
     }
 
-    // Atualizar projeto
-    public void atualizar(Projeto projeto, OnUpdateCallback callback) {
+    // Alterar o nome de um projeto
+    public void atualizarNome(int idProjeto, String nome, ProjetoRepository.OnUpdateCallback callback) {
         executorService.execute(() -> {
-            int resultado = ProjetoDao.atualizar(projeto);
+            int resultado = ProjetoDao.atualizarNomeProjeto(idProjeto, nome);
+
+            if (callback != null) {
+                callback.onResult(resultado);
+            }
+        });
+    }
+
+    // Alterar a data de um projeto
+    public void atualizarDataProjeto(int idProjeto, long dataEntrega, ProjetoRepository.OnUpdateCallback callback) {
+        executorService.execute(() -> {
+            int resultado = ProjetoDao.atualizarDataEntrega(idProjeto, dataEntrega);
 
             if (callback != null) {
                 callback.onResult(resultado);

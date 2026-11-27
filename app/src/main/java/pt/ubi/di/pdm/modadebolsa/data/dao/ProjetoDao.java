@@ -39,9 +39,17 @@ public interface ProjetoDao {
             "ORDER BY dataEntrega ASC")
     List<Projeto> obterComEntregaAPartirDe(long desde);
 
-    // Atualizar um projeto (nome, data de entrega, ...)
-    @Update
-    int atualizar(Projeto projeto);
+    // Atualizar nome
+    @Query("UPDATE Projeto SET nome = :nome " +
+            "WHERE idProjeto = :idProjeto")
+    int atualizarNomeProjeto(int idProjeto, String nome);
+
+
+    // Atualizar data
+    @Query("UPDATE Projeto SET dataEntrega = :dataEntrega " +
+            "WHERE idProjeto = :idProjeto")
+    int atualizarDataEntrega(int idProjeto, long dataEntrega);
+
 
     // Eliminar um projeto (apaga também os seus itens e associações)
     @Delete

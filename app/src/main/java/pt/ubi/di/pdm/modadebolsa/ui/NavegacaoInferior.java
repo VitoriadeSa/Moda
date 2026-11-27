@@ -6,6 +6,7 @@ import android.content.Intent;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import pt.ubi.di.pdm.modadebolsa.CirculoCoresActivity;
+import pt.ubi.di.pdm.modadebolsa.ColaboracaoActivity;
 import pt.ubi.di.pdm.modadebolsa.ListaTecidosActivity;
 import pt.ubi.di.pdm.modadebolsa.MainActivity;
 import pt.ubi.di.pdm.modadebolsa.R;
@@ -23,7 +24,8 @@ public class NavegacaoInferior {
             Class<?> destino;
             if (id == R.id.nav_moldes)       destino = MainActivity.class;
             else if (id == R.id.nav_tecidos) destino = ListaTecidosActivity.class;
-            else                             destino = CirculoCoresActivity.class;
+            else if (id == R.id.nav_cores)   destino = CirculoCoresActivity.class;
+            else                             destino = ColaboracaoActivity.class;
 
             Intent i = new Intent(activity, destino);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

@@ -73,7 +73,7 @@ public class NotificacaoHelper {
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.icon_moda) // troca pelo ícone da app
+                .setSmallIcon(R.drawable.icon_moda)
                 .setContentTitle(projeto.nome)
                 .setContentText(texto)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

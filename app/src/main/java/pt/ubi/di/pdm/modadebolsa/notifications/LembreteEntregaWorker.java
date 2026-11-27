@@ -51,6 +51,6 @@ public class LembreteEntregaWorker extends Worker {
         if (diasRestantes <= 7) {
             return true;
         }
-        return diasRestantes % 2 == 0; // envia notificações dia sim dia não se data entrega > 7
+        return diasRestantes % 2 == 0;
     }
 }

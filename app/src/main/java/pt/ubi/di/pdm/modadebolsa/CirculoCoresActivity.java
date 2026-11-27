@@ -112,7 +112,7 @@ public class CirculoCoresActivity extends AppCompatActivity {
             Toast.makeText(this, "Paleta guardada com sucesso!", Toast.LENGTH_SHORT).show();
         });
 
-        NavegacaoInferior.configurar(this, findViewById(R.id.bottomNav), R.id.nav_outros);
+        NavegacaoInferior.configurar(this, findViewById(R.id.bottomNav), R.id.nav_cores);
     }
 
     private void salvarPaletasNasPreferencias() {
