@@ -7,42 +7,56 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.SweepGradient;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
+import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import pt.ubi.di.pdm.modadebolsa.ui.NavegacaoInferior;
-
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import pt.ubi.di.pdm.modadebolsa.data.Cor;
+import pt.ubi.di.pdm.modadebolsa.data.dao.CorDao;
+import pt.ubi.di.pdm.modadebolsa.data.repository.CorRepository;
+import pt.ubi.di.pdm.modadebolsa.ui.CorUtil;
+import pt.ubi.di.pdm.modadebolsa.ui.Dialogos;
+import pt.ubi.di.pdm.modadebolsa.ui.NavegacaoInferior;
 
 public class CirculoCoresActivity extends AppCompatActivity {
 
     private FrameLayout containerColorWheel;
     private ColorWheelView colorWheelView;
     private View viewCor1, viewCor2, viewCor3;
-    private TextView tvHex1, tvHex2, tvHex3, tvPaletasSalvas;
-    private Button btnGuardarPaleta;
+    private TextView tvHex1, tvHex2, tvHex3, tvCoresGuardadas;
+    private Button btnGuardarCor, btnAssociarCor;
+    private RecyclerView rvCoresGuardadas;
     private ImageView ivLogoTop;
 
-    private int selectedColor1, selectedColor2, selectedColor3;
-    private String hex1 = "", hex2 = "", hex3 = "";
+    private int selectedColor1 = Color.RED;
+    private int selectedColor2 = Color.GREEN;
+    private int selectedColor3 = Color.BLUE;
+    private String hex1 = "#FF0000";
+    private String hex2 = "#00FF00";
+    private String hex3 = "#0000FF";
+
     private final List<PaletaItem> listaPaletas = new ArrayList<>();
+    private PaletaAdapter paletaAdapter;
+    private CorRepository corRepository;
 
     private static final String PREF_NAME = "ModaDeBolsa_Paletas";
     private static final String KEY_PALETAS = "paletas_salvas";
@@ -59,9 +73,22 @@ public class CirculoCoresActivity extends AppCompatActivity {
         tvHex1 = findViewById(R.id.tvHex1);
         tvHex2 = findViewById(R.id.tvHex2);
         tvHex3 = findViewById(R.id.tvHex3);
-        tvPaletasSalvas = findViewById(R.id.tvPaletasSalvas);
-        btnGuardarPaleta = findViewById(R.id.btnGuardarPaleta);
+        tvCoresGuardadas = findViewById(R.id.tvCoresGuardadas);
+        btnGuardarCor = findViewById(R.id.btnGuardarCor);
+        btnAssociarCor = findViewById(R.id.btnAssociarCor);
+        rvCoresGuardadas = findViewById(R.id.rvCoresGuardadas);
         ivLogoTop = findViewById(R.id.ivLogoTop);
+
+        inicializarRepositorio();
+
+        rvCoresGuardadas.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        );
+        paletaAdapter = new PaletaAdapter(listaPaletas, paleta -> {
+            aplicarPaletaNaTela(paleta);
+            Toast.makeText(this, "Paleta carregada", Toast.LENGTH_SHORT).show();
+        });
+        rvCoresGuardadas.setAdapter(paletaAdapter);
 
         ivLogoTop.setOnClickListener(v -> {
             Intent intent = new Intent(this, MainActivity.class);
@@ -75,25 +102,25 @@ public class CirculoCoresActivity extends AppCompatActivity {
         colorWheelView = new ColorWheelView(this);
         containerColorWheel.addView(colorWheelView);
 
-        colorWheelView.setOnTriadColorChangeListener((color1, color2, color3) -> {
-            selectedColor1 = color1;
-            selectedColor2 = color2;
-            selectedColor3 = color3;
+        colorWheelView.setOnTriadColorChangeListener((c1, c2, c3) -> {
+            selectedColor1 = c1;
+            selectedColor2 = c2;
+            selectedColor3 = c3;
 
-            hex1 = String.format("#%06X", (0xFFFFFF & color1));
-            hex2 = String.format("#%06X", (0xFFFFFF & color2));
-            hex3 = String.format("#%06X", (0xFFFFFF & color3));
+            hex1 = String.format("#%06X", (0xFFFFFF & c1));
+            hex2 = String.format("#%06X", (0xFFFFFF & c2));
+            hex3 = String.format("#%06X", (0xFFFFFF & c3));
 
-            setDrawableColor(viewCor1, color1);
-            setDrawableColor(viewCor2, color2);
-            setDrawableColor(viewCor3, color3);
+            setDrawableColor(viewCor1, c1);
+            setDrawableColor(viewCor2, c2);
+            setDrawableColor(viewCor3, c3);
 
             tvHex1.setText(hex1);
             tvHex2.setText(hex2);
             tvHex3.setText(hex3);
         });
 
-        btnGuardarPaleta.setOnClickListener(v -> {
+        btnGuardarCor.setOnClickListener(v -> {
             PaletaItem novaPaleta = new PaletaItem(
                     selectedColor1, hex1,
                     selectedColor2, hex2,
@@ -101,18 +128,94 @@ public class CirculoCoresActivity extends AppCompatActivity {
             );
 
             listaPaletas.add(0, novaPaleta);
-
-            if (listaPaletas.size() > 3) {
+            if (listaPaletas.size() > 6) {
                 listaPaletas.remove(listaPaletas.size() - 1);
             }
 
             salvarPaletasNasPreferencias();
-            atualizarHistoricoVisual();
+            paletaAdapter.notifyDataSetChanged();
+            atualizarEstadoPaletas();
 
             Toast.makeText(this, "Paleta guardada com sucesso!", Toast.LENGTH_SHORT).show();
         });
 
+        btnAssociarCor.setOnClickListener(v ->
+                Dialogos.pedirTexto(
+                        this,
+                        "Associar Paleta a um Projeto",
+                        "Nome da paleta ou projeto",
+                        "",
+                        InputType.TYPE_CLASS_TEXT,
+                        this::guardarPaletaNaBaseDados
+                )
+        );
+
         NavegacaoInferior.configurar(this, findViewById(R.id.bottomNav), R.id.nav_cores);
+    }
+
+    private void inicializarRepositorio() {
+        try {
+            Class<?> dbClass = Class.forName("pt.ubi.di.pdm.modadebolsa.data.AppDatabase");
+            Object dbInstance = null;
+            for (String methodName : new String[]{"getInstance", "getDatabase", "obterInstancia"}) {
+                try {
+                    Method m = dbClass.getMethod(methodName, Context.class);
+                    dbInstance = m.invoke(null, this);
+                    if (dbInstance != null) break;
+                } catch (NoSuchMethodException ignored) {
+                }
+            }
+            if (dbInstance != null) {
+                Method daoMethod = dbClass.getMethod("corDao");
+                CorDao dao = (CorDao) daoMethod.invoke(dbInstance);
+                if (dao != null) {
+                    corRepository = new CorRepository(dao);
+                }
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void guardarPaletaNaBaseDados(String nomeBase) {
+        if (corRepository == null) {
+            Toast.makeText(this, "Base de dados indisponível neste momento", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String[] hexes = { hex1, hex2, hex3 };
+        AtomicInteger concluidas = new AtomicInteger(0);
+
+        for (int i = 0; i < hexes.length; i++) {
+            String nomeCor = nomeBase + " #" + (i + 1);
+            Cor novaCor = new Cor(hexes[i], nomeCor, false);
+
+            corRepository.inserir(novaCor, id -> {
+                if (concluidas.incrementAndGet() == hexes.length) {
+                    runOnUiThread(() -> Toast.makeText(
+                            this,
+                            "Paleta guardada na BD (" + nomeBase + ")",
+                            Toast.LENGTH_SHORT
+                    ).show());
+                }
+            });
+        }
+    }
+
+    private void aplicarPaletaNaTela(PaletaItem p) {
+        selectedColor1 = p.c1;
+        selectedColor2 = p.c2;
+        selectedColor3 = p.c3;
+        hex1 = p.h1;
+        hex2 = p.h2;
+        hex3 = p.h3;
+
+        setDrawableColor(viewCor1, p.c1);
+        setDrawableColor(viewCor2, p.c2);
+        setDrawableColor(viewCor3, p.c3);
+
+        tvHex1.setText(p.h1);
+        tvHex2.setText(p.h2);
+        tvHex3.setText(p.h3);
     }
 
     private void salvarPaletasNasPreferencias() {
@@ -148,65 +251,90 @@ public class CirculoCoresActivity extends AppCompatActivity {
                         int c3 = Integer.parseInt(partes[4]);
                         String h3 = partes[5];
                         listaPaletas.add(new PaletaItem(c1, h1, c2, h2, c3, h3));
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                    }
                 }
             }
         }
-        atualizarHistoricoVisual();
+        if (paletaAdapter != null) {
+            paletaAdapter.notifyDataSetChanged();
+        }
+        atualizarEstadoPaletas();
     }
 
-    private void atualizarHistoricoVisual() {
+    private void atualizarEstadoPaletas() {
         if (listaPaletas.isEmpty()) {
-            tvPaletasSalvas.setText("Paletas Salvas: Nenhuma ainda");
-            return;
-        }
-
-        SpannableStringBuilder builderGlobal = new SpannableStringBuilder("Paletas Salvas (Máx. 3):\n");
-
-        for (int i = 0; i < listaPaletas.size(); i++) {
-            PaletaItem p = listaPaletas.get(i);
-
-            String linhaTexto = "• [V1] " + p.h1 + "    [V2] " + p.h2 + "    [V3] " + p.h3 + "\n";
-            SpannableString spannableLinha = new SpannableString(linhaTexto);
-
-            aplicarVetorNaTag(spannableLinha, "[V1]", p.c1);
-            aplicarVetorNaTag(spannableLinha, "[V2]", p.c2);
-            aplicarVetorNaTag(spannableLinha, "[V3]", p.c3);
-
-            builderGlobal.append(spannableLinha);
-        }
-
-        tvPaletasSalvas.setText(builderGlobal);
-    }
-
-    private void aplicarVetorNaTag(SpannableString spannable, String tag, int cor) {
-        String textoStr = spannable.toString();
-        int index = textoStr.indexOf(tag);
-        if (index != -1) {
-            Drawable vectorDrawable = ContextCompat.getDrawable(this, R.drawable.ic_paleta_circulo);
-            if (vectorDrawable != null) {
-                Drawable wrappedDrawable = DrawableCompat.wrap(vectorDrawable);
-                DrawableCompat.setTint(wrappedDrawable, cor);
-                wrappedDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-
-                ImageSpan imageSpan = new ImageSpan(wrappedDrawable, ImageSpan.ALIGN_BASELINE);
-                spannable.setSpan(imageSpan, index, index + tag.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
+            tvCoresGuardadas.setText("Paletas guardadas: Nenhuma");
+        } else {
+            tvCoresGuardadas.setText("Paletas guardadas (" + listaPaletas.size() + ")");
         }
     }
 
     private static class PaletaItem {
-        int c1, c2, c3;
-        String h1, h2, h3;
+        final int c1, c2, c3;
+        final String h1, h2, h3;
+
         PaletaItem(int c1, String h1, int c2, String h2, int c3, String h3) {
-            this.c1 = c1; this.h1 = h1;
-            this.c2 = c2; this.h2 = h2;
-            this.c3 = c3; this.h3 = h3;
+            this.c1 = c1;
+            this.h1 = h1;
+            this.c2 = c2;
+            this.h2 = h2;
+            this.c3 = c3;
+            this.h3 = h3;
         }
     }
 
-    private void setDrawableColor(View view, int color) {
-        if (view.getBackground() instanceof GradientDrawable) {
+    private interface OnPaletaClickListener {
+        void onPaletaClick(PaletaItem paleta);
+    }
+
+    private static class PaletaAdapter extends RecyclerView.Adapter<PaletaAdapter.PaletaViewHolder> {
+
+        private final List<PaletaItem> itens;
+        private final OnPaletaClickListener listener;
+
+        PaletaAdapter(List<PaletaItem> itens, OnPaletaClickListener listener) {
+            this.itens = itens;
+            this.listener = listener;
+        }
+
+        @NonNull
+        @Override
+        public PaletaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.layout_cor, parent, false);
+            return new PaletaViewHolder(v);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull PaletaViewHolder holder, int position) {
+            PaletaItem p = itens.get(position);
+            CorUtil.mostrar(holder.itemView, p.h1);
+            holder.tvHex.setText(p.h1 + " " + p.h2 + " " + p.h3);
+            holder.itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onPaletaClick(p);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return itens.size();
+        }
+
+        static class PaletaViewHolder extends RecyclerView.ViewHolder {
+            final TextView tvHex;
+
+            PaletaViewHolder(@NonNull View itemView) {
+                super(itemView);
+                tvHex = itemView.findViewById(R.id.tvHex);
+            }
+        }
+    }
+
+    private static void setDrawableColor(View view, int color) {
+        if (view != null && view.getBackground() instanceof GradientDrawable) {
             GradientDrawable drawable = (GradientDrawable) view.getBackground();
             drawable.setColor(color);
         }

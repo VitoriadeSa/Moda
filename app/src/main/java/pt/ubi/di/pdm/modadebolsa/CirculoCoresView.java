@@ -1,4 +1,4 @@
-package pt.ubi.di.pdm.modadebolsa.ui;
+package pt.ubi.di.pdm.modadebolsa;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,23 +11,19 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-// Roda de cores com um único seletor (matiz). A cor muda ao tocar ou arrastar.
 public class CirculoCoresView extends View {
-
     public interface OnColorChangeListener {
         void onColorChanged(int color);
     }
 
     private static final float RAIO_SELETOR = 35f;
-    private static final float POSICAO_SELETOR = 0.75f; // fração do raio da roda
-
+    private static final float POSICAO_SELETOR = 0.75f;
     private final Paint wheelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint linePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint handlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint borderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-
     private float centerX, centerY, radius;
-    private float angle = 0f; // 0 a 360 graus
+    private float angle = 0f;
     private OnColorChangeListener listener;
 
     public CirculoCoresView(Context context) {
@@ -36,13 +32,10 @@ public class CirculoCoresView extends View {
 
     public CirculoCoresView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
         linePaint.setColor(Color.WHITE);
         linePaint.setStrokeWidth(6f);
         linePaint.setStyle(Paint.Style.STROKE);
-
         handlePaint.setStyle(Paint.Style.FILL);
-
         borderPaint.setColor(Color.WHITE);
         borderPaint.setStrokeWidth(6f);
         borderPaint.setStyle(Paint.Style.STROKE);
@@ -52,7 +45,6 @@ public class CirculoCoresView extends View {
         this.listener = listener;
     }
 
-    // Cor atualmente selecionada
     public int getColor() {
         return Color.HSVToColor(new float[]{angle, 1f, 1f});
     }
@@ -63,23 +55,19 @@ public class CirculoCoresView extends View {
         centerX = w / 2f;
         centerY = h / 2f;
         radius = Math.min(centerX, centerY) - 30f;
-
         int[] cores = {Color.RED, Color.YELLOW, Color.GREEN,
                 Color.CYAN, Color.BLUE, Color.MAGENTA, Color.RED};
         float[] posicoes = {0f, 1 / 6f, 2 / 6f, 3 / 6f, 4 / 6f, 5 / 6f, 1f};
         wheelPaint.setShader(new SweepGradient(centerX, centerY, cores, posicoes));
     }
 
-    // Só desenha: não tem efeitos secundários
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawCircle(centerX, centerY, radius, wheelPaint);
-
         double rad = Math.toRadians(angle);
         float x = centerX + radius * POSICAO_SELETOR * (float) Math.cos(rad);
         float y = centerY + radius * POSICAO_SELETOR * (float) Math.sin(rad);
-
         canvas.drawLine(centerX, centerY, x, y, linePaint);
         handlePaint.setColor(getColor());
         canvas.drawCircle(x, y, RAIO_SELETOR, handlePaint);
@@ -102,7 +90,7 @@ public class CirculoCoresView extends View {
                 }
                 return true;
             case MotionEvent.ACTION_UP:
-                performClick(); // acessibilidade
+                performClick();
                 return true;
             default:
                 return super.onTouchEvent(event);

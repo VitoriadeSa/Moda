@@ -1,4 +1,3 @@
-
 package pt.ubi.di.pdm.modadebolsa.data.dao;
 
 import androidx.room.Dao;
@@ -34,7 +33,3 @@ public interface CorDao {
     int atualizarFavorito(int idCor, boolean favorito);
 
 }
-/*
-É possível fazer isto
-List<Cor> resultados = corDao.filtrar("Inverno", null);
- */

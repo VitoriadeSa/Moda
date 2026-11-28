@@ -1,9 +1,7 @@
-
 package pt.ubi.di.pdm.modadebolsa.data.repository;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import pt.ubi.di.pdm.modadebolsa.data.Cor;
 import pt.ubi.di.pdm.modadebolsa.data.dao.CorDao;
@@ -15,7 +13,8 @@ public class CorRepository {
 
     public CorRepository(CorDao dao) {
         this.corDao = dao;
-        this.executorService = DatabaseExecutor.getExecutor();    }
+        this.executorService = DatabaseExecutor.getExecutor();
+    }
 
     // Inserir cor
     public void inserir(Cor cor, OnInsertCallback callback) {

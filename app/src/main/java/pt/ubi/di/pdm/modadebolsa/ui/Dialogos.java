@@ -7,14 +7,10 @@ import android.widget.FrameLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.util.Consumer;
 
-// Diálogos reutilizáveis em toda a app
 public final class Dialogos {
-
     private Dialogos() {
     }
 
-    // Pede um texto. Só chama aoConfirmar se o texto não estiver vazio.
-    // Usar com uma Activity como context (precisa do tema da app).
     public static void pedirTexto(Context context, String titulo, String hint,
                                   String textoInicial, int inputType,
                                   Consumer<String> aoConfirmar) {
@@ -23,9 +19,8 @@ public final class Dialogos {
         input.setSingleLine(true);
         input.setInputType(inputType);
         input.setText(textoInicial);
-        input.setSelection(input.length());
+        input.setSelection(input.getText().length());
 
-        // Margem à volta do campo
         int margem = (int) (24 * context.getResources().getDisplayMetrics().density);
         FrameLayout container = new FrameLayout(context);
         container.setPadding(margem, margem / 2, margem, 0);
@@ -44,7 +39,6 @@ public final class Dialogos {
                 .show();
     }
 
-    // Pede confirmação antes de uma ação (por exemplo, eliminar)
     public static void confirmar(Context context, String titulo, String mensagem,
                                  Runnable aoConfirmar) {
         new AlertDialog.Builder(context)

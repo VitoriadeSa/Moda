@@ -11,10 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-// Adapter genérico para listas simples: substitui o CorAdapter, o TarefaAdapter
-// e o MembroAdapter. Quem o usa indica o layout do item e como o preencher.
 public class ListaAdapter<T> extends RecyclerView.Adapter<ListaAdapter.VH> {
-
     public interface Binder<T> {
         void ligar(View itemView, T item);
     }
