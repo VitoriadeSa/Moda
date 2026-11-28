@@ -71,4 +71,5 @@ public class MoldeAdapter extends RecyclerView.Adapter<MoldeAdapter.VH> {
         }
         notifyDataSetChanged();
     }
+
 }

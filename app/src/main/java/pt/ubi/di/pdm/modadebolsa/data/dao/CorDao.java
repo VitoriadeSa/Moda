@@ -19,6 +19,9 @@ public interface CorDao {
     @Update
     int atualizar(Cor cor);
 
+    @Query("SELECT * FROM Cor WHERE codigoHex = :codigoHex LIMIT 1")
+    Cor obterPorHex(String codigoHex);
+
     @Query("SELECT * FROM Cor WHERE idCor = :id LIMIT 1")
     Cor obterPorId(int id);
 

@@ -21,11 +21,9 @@ public class Cor {
 
     public Cor(
             String codigoHex,
-            String nome,
             boolean favorito
     ) {
         this.codigoHex = codigoHex;
-        this.nome = nome;
         this.favorito = favorito;
     }
 }

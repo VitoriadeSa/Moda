@@ -28,13 +28,13 @@ public class CorRepository {
         });
     }
 
-    // Atualizar cor
-    public void atualizar(Cor cor, OnUpdateCallback callback) {
+    // Obter cor pelo código hex
+    public void obterPorHex(String codigoHex, OnCorCallback callback) {
         executorService.execute(() -> {
-            int resultado = corDao.atualizar(cor);
+            Cor cor = corDao.obterPorHex(codigoHex);
 
             if (callback != null) {
-                callback.onResult(resultado);
+                callback.onResult(cor);
             }
         });
     }
